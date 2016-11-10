@@ -1,7 +1,9 @@
-package jonas.com.redditpoc;
+package jonas.com.redditpoc.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import jonas.com.redditpoc.R;
 
 public class HomeActivity extends AppCompatActivity {
 
