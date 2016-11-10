@@ -3,4 +3,8 @@
     <string name="thumbnail">Thumbnail</string>
     <string name="post_detail">submitted %1$s\nby %2$s</string>
     <string name="comments">%1$d comments</string>
+    <string name="retry">Retry</string>
+    <string name="error">An error occurred</string>
+    <string name="cant_load_data">Can\'t load data</string>
+
 </resources>

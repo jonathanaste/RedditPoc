@@ -6,5 +6,7 @@
 
     <color name="textColorPrimary">#212121</color>
     <color name="black">#000000</color>
+    <color name="empty_state_text_color">#B6B6B6</color>
+    <color name="button_text_color">#EEEEEE</color>
 
 </resources>

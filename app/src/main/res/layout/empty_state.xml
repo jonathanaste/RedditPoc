@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_48"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_error" />
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/EmptyStateStyleRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/dp_20"
+        android:text="@string/error"
+        android:textColor="@color/empty_state_text_color" />
+
+    <Button
+        android:id="@+id/retry_button"
+        style="@style/TitleStyleRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@color/empty_state_text_color"
+        android:minHeight="30dp"
+        android:minWidth="100dp"
+        android:text="@string/retry"
+        android:textColor="@color/button_text_color"
+        android:visibility="gone" />
+
+</LinearLayout>

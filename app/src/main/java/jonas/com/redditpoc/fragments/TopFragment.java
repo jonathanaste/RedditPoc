@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import jonas.com.redditpoc.R;
 import jonas.com.redditpoc.presenters.TopFragmentPresenter;
@@ -23,6 +23,8 @@ public class TopFragment extends Fragment implements TopFragmentView {
     private TopAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private View emptyState;
+    private TextView emptyStateText;
 
     @Nullable
     @Override
@@ -42,6 +44,8 @@ public class TopFragment extends Fragment implements TopFragmentView {
     private void initViews(View view) {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        emptyState = view.findViewById(R.id.empty_state);
+        emptyStateText = (TextView) emptyState.findViewById(R.id.description);
 
         adapter = new TopAdapter(getContext());
         recyclerView = (RecyclerView) view.findViewById(R.id.top_recycler_view);
@@ -56,6 +60,8 @@ public class TopFragment extends Fragment implements TopFragmentView {
 
     @Override
     public void populateData(Data response) {
+        emptyState.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         adapter.setData(response.getChildren());
     }
@@ -63,12 +69,16 @@ public class TopFragment extends Fragment implements TopFragmentView {
     @Override
     public void onError(String error) {
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        recyclerView.setVisibility(View.GONE);
+        emptyStateText.setText(R.string.error);
+        emptyState.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showEmptyState() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        emptyStateText.setText(R.string.cant_load_data);
+        emptyState.setVisibility(View.VISIBLE);
     }
 }

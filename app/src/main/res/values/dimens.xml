@@ -7,8 +7,13 @@
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_15">15dp</dimen>
     <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
 
     <!-- Text Sizes -->
+    <dimen name="empty_state">24dp</dimen>
     <dimen name="title">16dp</dimen>
     <dimen name="caption">14dp</dimen>
+
 </resources>

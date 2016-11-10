@@ -15,13 +15,13 @@ import java.io.UnsupportedEncodingException;
 
 import jonas.com.redditpoc.interfaces.DataListener;
 
-public class BaseRequest<T> extends Request<T> {
+public abstract class BaseRequest<T> extends Request<T> {
 
-    protected final DataListener<T> dataListener;
+    private final DataListener<T> dataListener;
     private final Gson gson = new Gson();
     private final Class<T> clazz;
 
-    public BaseRequest(int method, String url, Class<T> clazz, DataListener<T> dataListener) {
+    BaseRequest(int method, String url, Class<T> clazz, DataListener<T> dataListener) {
         super(method, url, null);
         Log.d("Request-Url", url);
         this.clazz = clazz;
@@ -35,7 +35,7 @@ public class BaseRequest<T> extends Request<T> {
 
     @Override
     public void deliverError(VolleyError error) {
-        dataListener.onError("ERROR");
+        dataListener.onError(error.getCause().getMessage());
     }
 
     @Override
