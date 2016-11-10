@@ -19,8 +19,8 @@ import jonas.com.redditpoc.model.Post;
 
 public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
 
-    Context context;
-    List<Children> dataList;
+    private Context context;
+    private List<Children> dataList;
 
     public TopAdapter(Context context) {
         this.context = context;
@@ -58,14 +58,14 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
         return dataList != null ? dataList.size() : 0;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView thumbnail;
         private TextView title;
         private TextView detail;
         private TextView numberOfComments;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
             title = (TextView) itemView.findViewById(R.id.title);
@@ -74,14 +74,15 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
 
         }
 
-        public void bind(Post post) {
+        void bind(Post post) {
             title.setText(post.getTitle().trim());
-
             detail.setText(String.format(context.getResources().getString(R.string.post_detail),
-                    post.getCreated_utc(), post.getAuthor()));
-            numberOfComments.setText(String.valueOf(post.getNum_comments()));
+                    post.getFormattedDate(), post.getAuthor()));
+            numberOfComments.setText(String.format(context.getResources().getString(R.string.comments),post.getNum_comments()));
             if(post.getThumbnail() != null && !post.getThumbnail().isEmpty()){
-                Picasso.with(context).load(post.getThumbnail()).into(thumbnail);
+                Picasso.with(context).load(post.getThumbnail()).error(R.drawable.reddit).into(thumbnail);
+            }else{
+                thumbnail.setImageResource(R.drawable.reddit);
             }
         }
     }

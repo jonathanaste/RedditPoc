@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import jonas.com.redditpoc.R;
@@ -21,7 +22,7 @@ public class TopFragment extends Fragment implements TopFragmentView {
     private TopFragmentPresenter presenter;
     private TopAdapter adapter;
     private RecyclerView recyclerView;
-
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -35,9 +36,13 @@ public class TopFragment extends Fragment implements TopFragmentView {
         initViews(view);
         presenter = new TopFragmentPresenter(this);
         presenter.getTopPost();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void initViews(View view) {
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+
         adapter = new TopAdapter(getContext());
         recyclerView = (RecyclerView) view.findViewById(R.id.top_recycler_view);
 
@@ -51,16 +56,19 @@ public class TopFragment extends Fragment implements TopFragmentView {
 
     @Override
     public void populateData(Data response) {
+        progressBar.setVisibility(View.GONE);
         adapter.setData(response.getChildren());
     }
 
     @Override
     public void onError(String error) {
+        progressBar.setVisibility(View.GONE);
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showEmptyState() {
+        progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
     }
 }

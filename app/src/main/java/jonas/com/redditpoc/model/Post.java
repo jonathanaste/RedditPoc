@@ -1,12 +1,14 @@
 package jonas.com.redditpoc.model;
 
+import android.text.format.DateUtils;
+
 public class Post {
 
     String author;
     String thumbnail;
     String title;
     int num_comments;
-    int created_utc;
+    long created_utc;
 
     public String getAuthor() {
         return author;
@@ -24,8 +26,16 @@ public class Post {
         return num_comments;
     }
 
-    public int getCreated_utc() {
+    public long getCreated_utc() {
         return created_utc;
+    }
+
+    public long getEntryDateInMillis(){
+        return created_utc * 1000;
+    }
+
+    public CharSequence getFormattedDate(){
+        return DateUtils.getRelativeTimeSpanString(getEntryDateInMillis(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
     }
 
 }

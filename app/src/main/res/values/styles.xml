@@ -6,6 +6,30 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">true</item>
+    </style>
+
+    <style name="AppTheme.MyTheme">
+
+    </style>
+
+    <style name="TextViewStyleLight">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="TextViewStyleRegular">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="TitleStyleRegular" parent="TextViewStyleRegular">
+        <item name="android:textSize">@dimen/title</item>
+    </style>
+
+    <style name="CaptionStyleLight" parent="TextViewStyleLight">
+        <item name="android:textSize">@dimen/caption</item>
     </style>
 
 </resources>

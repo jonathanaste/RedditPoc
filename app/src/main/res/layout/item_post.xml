@@ -12,17 +12,19 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_15">
+        android:padding="@dimen/dp_8">
 
         <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginRight="@dimen/dp_10"
-            android:contentDescription="@string/thumbnail" />
+            android:contentDescription="@string/thumbnail"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/TitleStyleRegular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/thumbnail"
@@ -35,6 +37,7 @@
 
         <TextView
             android:id="@+id/detail"
+            style="@style/CaptionStyleLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
@@ -42,6 +45,7 @@
 
         <TextView
             android:id="@+id/comments"
+            style="@style/CaptionStyleLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail"
