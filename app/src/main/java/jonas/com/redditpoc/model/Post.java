@@ -4,11 +4,12 @@ import android.text.format.DateUtils;
 
 public class Post {
 
-    String author;
-    String thumbnail;
-    String title;
-    int num_comments;
-    long created_utc;
+    private String author;
+    private String name;
+    private String thumbnail;
+    private String title;
+    private int num_comments;
+    private long created_utc;
 
     public String getAuthor() {
         return author;
@@ -38,4 +39,7 @@ public class Post {
         return DateUtils.getRelativeTimeSpanString(getEntryDateInMillis(), System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
     }
 
+    public String getName() {
+        return name;
+    }
 }

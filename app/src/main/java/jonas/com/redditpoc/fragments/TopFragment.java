@@ -1,5 +1,6 @@
 package jonas.com.redditpoc.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import jonas.com.redditpoc.R;
+import jonas.com.redditpoc.interfaces.ActivityCallback;
+import jonas.com.redditpoc.interfaces.OnItemClickListener;
+import jonas.com.redditpoc.model.Post;
 import jonas.com.redditpoc.presenters.TopFragmentPresenter;
 import jonas.com.redditpoc.views.TopFragmentView;
 import jonas.com.redditpoc.adapters.TopAdapter;
 import jonas.com.redditpoc.model.Data;
 
-public class TopFragment extends Fragment implements TopFragmentView {
+public class TopFragment extends Fragment implements TopFragmentView, OnItemClickListener {
 
     private TopFragmentPresenter presenter;
     private TopAdapter adapter;
@@ -25,6 +29,7 @@ public class TopFragment extends Fragment implements TopFragmentView {
     private ProgressBar progressBar;
     private View emptyState;
     private TextView emptyStateText;
+    private ActivityCallback callback;
 
     @Nullable
     @Override
@@ -47,7 +52,7 @@ public class TopFragment extends Fragment implements TopFragmentView {
         emptyState = view.findViewById(R.id.empty_state);
         emptyStateText = (TextView) emptyState.findViewById(R.id.description);
 
-        adapter = new TopAdapter(getContext());
+        adapter = new TopAdapter(getContext(),this);
         recyclerView = (RecyclerView) view.findViewById(R.id.top_recycler_view);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -80,5 +85,16 @@ public class TopFragment extends Fragment implements TopFragmentView {
         recyclerView.setVisibility(View.GONE);
         emptyStateText.setText(R.string.cant_load_data);
         emptyState.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        this.callback = (ActivityCallback) context;
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onItemClick(Post post) {
+        callback.onItemSelected(ImageFragment.newInstance(post));
     }
 }

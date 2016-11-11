@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jonas.com.redditpoc.R;
+import jonas.com.redditpoc.interfaces.OnItemClickListener;
 import jonas.com.redditpoc.model.Children;
 import jonas.com.redditpoc.model.Post;
 
@@ -21,9 +22,12 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
 
     private Context context;
     private List<Children> dataList;
+    private OnItemClickListener onItemClickListener;
+    public static String THUMBNAIL_BASE_URL = "http://b.thumbs.redditmedia.com/";
 
-    public TopAdapter(Context context) {
+    public TopAdapter(Context context, OnItemClickListener listener) {
         this.context = context;
+        this.onItemClickListener = listener;
         dataList = new ArrayList<>();
     }
 
@@ -71,7 +75,7 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
             title = (TextView) itemView.findViewById(R.id.title);
             detail = (TextView) itemView.findViewById(R.id.detail);
             numberOfComments = (TextView) itemView.findViewById(R.id.comments);
-
+            thumbnail.setOnClickListener(onImageClickListener);
         }
 
         void bind(Post post) {
@@ -79,11 +83,18 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
             detail.setText(String.format(context.getResources().getString(R.string.post_detail),
                     post.getFormattedDate(), post.getAuthor()));
             numberOfComments.setText(String.format(context.getResources().getString(R.string.comments),post.getNum_comments()));
-            if(post.getThumbnail() != null && !post.getThumbnail().isEmpty()){
+            if(post.getThumbnail() != null && !post.getThumbnail().isEmpty() && post.getThumbnail().startsWith(THUMBNAIL_BASE_URL)){
                 Picasso.with(context).load(post.getThumbnail()).error(R.drawable.reddit).into(thumbnail);
             }else{
                 thumbnail.setImageResource(R.drawable.reddit);
             }
         }
+
+        View.OnClickListener onImageClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClick(getItem(getAdapterPosition()));
+            }
+        };
     }
 }

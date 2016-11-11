@@ -6,5 +6,9 @@
     <string name="retry">Retry</string>
     <string name="error">An error occurred</string>
     <string name="cant_load_data">Can\'t load data</string>
+    <string name="image_saved">Image Saved!</string>
+    <string name="touch_image_to_save">Touch image to save</string>
+    <string name="no_image">No image</string>
+    <string name="check_permissions">Can\'t save file, check storage permissions!</string>
 
 </resources>
