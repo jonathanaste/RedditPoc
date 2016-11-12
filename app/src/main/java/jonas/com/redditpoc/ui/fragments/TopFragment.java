@@ -99,6 +99,7 @@ public class TopFragment extends Fragment implements TopFragmentView, OnItemClic
 
     @Override
     public void loadMore(ArrayList<Post> posts) {
+        data.addAll(posts);
         adapter.addMoreData(posts);
     }
 
