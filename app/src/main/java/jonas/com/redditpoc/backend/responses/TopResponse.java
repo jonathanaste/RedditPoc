@@ -1,9 +1,11 @@
-package jonas.com.redditpoc.model;
+package jonas.com.redditpoc.backend.responses;
+
+import jonas.com.redditpoc.model.Data;
 
 public class TopResponse {
 
-    String kind;
-    Data data;
+    private String kind;
+    private Data data;
 
     public String getKind() {
         return kind;

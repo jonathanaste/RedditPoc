@@ -1,4 +1,4 @@
-package jonas.com.redditpoc.views;
+package jonas.com.redditpoc.mvp.views;
 
 import jonas.com.redditpoc.model.Data;
 

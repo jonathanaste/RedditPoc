@@ -2,11 +2,13 @@ package jonas.com.redditpoc.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Children {
+import java.io.Serializable;
 
-    String kind;
+public class Children implements Serializable {
+
+    private String kind;
     @SerializedName("data")
-    Post post;
+    private Post post;
 
     public String getKind() {
         return kind;

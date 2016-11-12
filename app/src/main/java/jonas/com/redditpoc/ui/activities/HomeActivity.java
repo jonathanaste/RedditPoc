@@ -1,6 +1,5 @@
-package jonas.com.redditpoc.activities;
+package jonas.com.redditpoc.ui.activities;
 
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import jonas.com.redditpoc.R;
-import jonas.com.redditpoc.fragments.TopFragment;
+import jonas.com.redditpoc.ui.fragments.TopFragment;
 import jonas.com.redditpoc.interfaces.ActivityCallback;
 
 public class HomeActivity extends AppCompatActivity implements ActivityCallback {

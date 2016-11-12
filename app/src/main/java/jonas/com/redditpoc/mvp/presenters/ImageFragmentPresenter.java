@@ -1,5 +1,6 @@
-package jonas.com.redditpoc.presenters;
+package jonas.com.redditpoc.mvp.presenters;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -13,7 +14,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import jonas.com.redditpoc.interfaces.ImageFragmentView;
+import jonas.com.redditpoc.R;
+import jonas.com.redditpoc.mvp.views.ImageFragmentView;
 
 import static android.content.ContentValues.TAG;
 
@@ -21,13 +23,14 @@ public class ImageFragmentPresenter {
 
     private static final String REDDIT_PICTURE_PATH = "/Pictures/RedditImages";
     private ImageFragmentView view;
+    private Context context;
 
-    public ImageFragmentPresenter(ImageFragmentView view){
+    public ImageFragmentPresenter(Context context, ImageFragmentView view) {
         this.view = view;
+        this.context = context;
     }
 
     public void saveImage(String url, String name) {
-
         Bitmap bitmap = getBitmapFromURL(url);
         File pictureFile = getOutputMediaFile(name);
         if (pictureFile != null && bitmap != null) {
@@ -38,9 +41,13 @@ public class ImageFragmentPresenter {
                 view.onImageSaved();
             } catch (FileNotFoundException e) {
                 Log.d(TAG, "File not found: " + e.getMessage());
+                view.showImageNotSaveError();
             } catch (IOException e) {
                 Log.d(TAG, "Error accessing file: " + e.getMessage());
+                view.showImageNotSaveError();
             }
+        } else {
+            view.showImageNotSaveError();
         }
     }
 
@@ -51,8 +58,7 @@ public class ImageFragmentPresenter {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
             return null;
         }
@@ -62,16 +68,13 @@ public class ImageFragmentPresenter {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
                 + REDDIT_PICTURE_PATH);
 
-        Log.d("Path: ", mediaStorageDir.getAbsolutePath());
-
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
             }
         }
-        File mediaFile;
-        String mImageName = "MI_" + name + ".jpg";
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
-        return mediaFile;
+
+        String mImageName = String.format(context.getString(R.string.image_name), name);
+        return new File(mediaStorageDir.getPath() + File.separator + mImageName);
     }
 }

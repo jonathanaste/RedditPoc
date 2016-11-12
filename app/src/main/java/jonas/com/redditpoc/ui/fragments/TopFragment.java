@@ -1,4 +1,4 @@
-package jonas.com.redditpoc.fragments;
+package jonas.com.redditpoc.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,9 +19,9 @@ import jonas.com.redditpoc.interfaces.ActivityCallback;
 import jonas.com.redditpoc.interfaces.OnItemClickListener;
 import jonas.com.redditpoc.model.Children;
 import jonas.com.redditpoc.model.Post;
-import jonas.com.redditpoc.presenters.TopFragmentPresenter;
-import jonas.com.redditpoc.views.TopFragmentView;
-import jonas.com.redditpoc.adapters.TopAdapter;
+import jonas.com.redditpoc.mvp.presenters.TopFragmentPresenter;
+import jonas.com.redditpoc.mvp.views.TopFragmentView;
+import jonas.com.redditpoc.ui.adapters.TopAdapter;
 import jonas.com.redditpoc.model.Data;
 
 public class TopFragment extends Fragment implements TopFragmentView, OnItemClickListener {

@@ -2,7 +2,9 @@ package jonas.com.redditpoc.model;
 
 import android.text.format.DateUtils;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable{
 
     private String author;
     private String name;

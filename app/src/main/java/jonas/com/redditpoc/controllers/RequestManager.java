@@ -5,8 +5,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import jonas.com.redditpoc.interfaces.DataListener;
-import jonas.com.redditpoc.requests.TopRequest;
-import jonas.com.redditpoc.model.TopResponse;
+import jonas.com.redditpoc.backend.requests.TopRequest;
+import jonas.com.redditpoc.backend.responses.TopResponse;
 
 public class RequestManager {
 

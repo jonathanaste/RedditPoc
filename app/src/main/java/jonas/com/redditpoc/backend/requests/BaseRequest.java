@@ -1,4 +1,4 @@
-package jonas.com.redditpoc.requests;
+package jonas.com.redditpoc.backend.requests;
 
 import android.util.Log;
 

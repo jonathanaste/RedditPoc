@@ -1,13 +1,14 @@
 package jonas.com.redditpoc.model;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class Data {
 
-    List<Children> children;
-    String after;
+    private ArrayList<Children> children;
+    private String after;
 
-    public List<Children> getChildren() {
+    public ArrayList<Children> getChildren() {
         return children;
     }
 
