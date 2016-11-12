@@ -29,4 +29,10 @@ public class RequestManager {
         queue.add(topRequest);
     }
 
+    public void getTopPosts(DataListener<TopResponse> listener,String after, int count) {
+        TopRequest topRequest = new TopRequest(listener,after,count);
+        queue.add(topRequest);
+    }
+
+
 }

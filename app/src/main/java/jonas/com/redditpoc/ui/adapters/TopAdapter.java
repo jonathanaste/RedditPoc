@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import jonas.com.redditpoc.R;
 import jonas.com.redditpoc.interfaces.OnItemClickListener;
-import jonas.com.redditpoc.model.Children;
 import jonas.com.redditpoc.model.Post;
 
 public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
@@ -22,7 +21,7 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
     public static String THUMBNAIL_BASE_URL = "http://b.thumbs.redditmedia.com/";
 
     private Context context;
-    private ArrayList<Children> dataList;
+    private ArrayList<Post> dataList;
     private OnItemClickListener onItemClickListener;
 
 
@@ -35,22 +34,28 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_post, parent, false);
-        return new MyViewHolder(v);
+                .inflate(viewType, parent, false);
+        return new MyViewHolder(v,viewType);
     }
 
-    public void setData(ArrayList<Children> children) {
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position) == null ? R.layout.item_progress : R.layout.item_post;
+    }
+
+    public void setData(ArrayList<Post> post) {
         this.dataList.clear();
-        this.dataList.addAll(children);
+        this.dataList.addAll(post);
         notifyDataSetChanged();
     }
 
     private Post getItem(int position) {
-        return dataList.get(position).getPost();
+        return dataList.get(position);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        //if getItem(position) == null, means that we are showing the progress bar
         if (getItem(position) != null) {
             holder.bind(getItem(position));
         }
@@ -61,6 +66,23 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
         return dataList != null ? dataList.size() : 0;
     }
 
+    public void showProgress() {
+        dataList.add(null);
+        notifyItemInserted(dataList.size() - 1);
+    }
+
+    public void hideProgress() {
+        if (!dataList.isEmpty() && dataList.get(dataList.size() - 1) == null) {
+            dataList.remove(dataList.size() - 1);
+            notifyItemRemoved(dataList.size());
+        }
+    }
+
+    public void addMoreData(ArrayList<Post> post) {
+        dataList.addAll(post);
+        notifyDataSetChanged();
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView thumbnail;
@@ -68,13 +90,15 @@ public class TopAdapter extends RecyclerView.Adapter<TopAdapter.MyViewHolder> {
         private TextView detail;
         private TextView numberOfComments;
 
-        MyViewHolder(View itemView) {
+        MyViewHolder(View itemView, int viewType) {
             super(itemView);
-            thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
-            title = (TextView) itemView.findViewById(R.id.title);
-            detail = (TextView) itemView.findViewById(R.id.detail);
-            numberOfComments = (TextView) itemView.findViewById(R.id.comments);
-            thumbnail.setOnClickListener(onImageClickListener);
+            if(viewType == R.layout.item_post) {
+                thumbnail = (ImageView) itemView.findViewById(R.id.thumbnail);
+                title = (TextView) itemView.findViewById(R.id.title);
+                detail = (TextView) itemView.findViewById(R.id.detail);
+                numberOfComments = (TextView) itemView.findViewById(R.id.comments);
+                thumbnail.setOnClickListener(onImageClickListener);
+            }
         }
 
         void bind(Post post) {

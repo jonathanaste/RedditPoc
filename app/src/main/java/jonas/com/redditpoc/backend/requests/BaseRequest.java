@@ -1,7 +1,9 @@
 package jonas.com.redditpoc.backend.requests;
 
+import android.net.Uri;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -12,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import jonas.com.redditpoc.interfaces.DataListener;
 
@@ -23,7 +26,6 @@ public abstract class BaseRequest<T> extends Request<T> {
 
     BaseRequest(int method, String url, Class<T> clazz, DataListener<T> dataListener) {
         super(method, url, null);
-        Log.d("Request-Url", url);
         this.clazz = clazz;
         this.dataListener = dataListener;
     }
@@ -38,8 +40,10 @@ public abstract class BaseRequest<T> extends Request<T> {
         dataListener.onError(error.getCause().getMessage());
     }
 
+
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
+        Log.d("Request-Url", getUrl());
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             Log.d("Request-Response", json);
@@ -51,4 +55,19 @@ public abstract class BaseRequest<T> extends Request<T> {
         }
     }
 
+
+    @Override
+    public String getUrl() {
+        try {
+            Uri.Builder builder = Uri.parse(super.getUrl()).buildUpon();
+            for (Map.Entry<String, String> entry : getParams().entrySet()) {
+                builder.appendQueryParameter(entry.getKey(), entry.getValue());
+            }
+            return builder.build().toString();
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
+        return super.getUrl();
+
+    }
 }

@@ -1,6 +1,7 @@
 package jonas.com.redditpoc.ui.fragments;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import jonas.com.redditpoc.model.Children;
 import jonas.com.redditpoc.model.Post;
 import jonas.com.redditpoc.mvp.presenters.TopFragmentPresenter;
 import jonas.com.redditpoc.mvp.views.TopFragmentView;
+import jonas.com.redditpoc.ui.adapters.EndlessScroll;
 import jonas.com.redditpoc.ui.adapters.TopAdapter;
 import jonas.com.redditpoc.model.Data;
 
@@ -36,8 +38,8 @@ public class TopFragment extends Fragment implements TopFragmentView, OnItemClic
     private View emptyState;
     private TextView emptyStateText;
     private ActivityCallback callback;
-    private ArrayList<Children> data;
-
+    private ArrayList<Post> data;
+    private EndlessScroll endlessScroll;
 
     public static TopFragment newInstance() {
         return new TopFragment();
@@ -48,7 +50,7 @@ public class TopFragment extends Fragment implements TopFragmentView, OnItemClic
         super.onCreate(savedInstanceState);
         // If savedInstanceState is not null means that we can get the data from there.
         if (savedInstanceState != null) {
-            data = (ArrayList<Children>) savedInstanceState.getSerializable(POST_LIST_EXTRA);
+            data = (ArrayList<Post>) savedInstanceState.getSerializable(POST_LIST_EXTRA);
         }
     }
 
@@ -64,9 +66,40 @@ public class TopFragment extends Fragment implements TopFragmentView, OnItemClic
 
         initViews(view);
 
+        initListeners();
+
         presenter = new TopFragmentPresenter(this);
 
         loadData();
+    }
+
+    private void initListeners() {
+        endlessScroll = new EndlessScroll() {
+            @Override
+            public void loadMore() {
+                presenter.loadMore();
+            }
+        };
+        recyclerView.addOnScrollListener(endlessScroll);
+
+    }
+
+    @Override
+    public void hideLoadMoreProgress() {
+        if (endlessScroll != null) {
+            endlessScroll.setLoading(false);
+        }
+        adapter.hideProgress();
+    }
+
+    @Override
+    public void showLoadMoreProgress() {
+        adapter.showProgress();
+    }
+
+    @Override
+    public void loadMore(ArrayList<Post> posts) {
+        adapter.addMoreData(posts);
     }
 
     private void loadData() {
@@ -92,12 +125,12 @@ public class TopFragment extends Fragment implements TopFragmentView, OnItemClic
     }
 
     @Override
-    public void populateData(Data response) {
-        data = response.getChildren();
+    public void populateData(ArrayList<Post> posts) {
+        data = posts;
         emptyState.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        adapter.setData(response.getChildren());
+        adapter.setData(posts);
     }
 
     @Override
