@@ -1,7 +1,6 @@
 package jonas.com.redditpoc.ui.fragments;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,13 +17,11 @@ import java.util.ArrayList;
 import jonas.com.redditpoc.R;
 import jonas.com.redditpoc.interfaces.ActivityCallback;
 import jonas.com.redditpoc.interfaces.OnItemClickListener;
-import jonas.com.redditpoc.model.Children;
 import jonas.com.redditpoc.model.Post;
 import jonas.com.redditpoc.mvp.presenters.TopFragmentPresenter;
 import jonas.com.redditpoc.mvp.views.TopFragmentView;
 import jonas.com.redditpoc.ui.adapters.EndlessScroll;
 import jonas.com.redditpoc.ui.adapters.TopAdapter;
-import jonas.com.redditpoc.model.Data;
 
 public class TopFragment extends Fragment implements TopFragmentView, OnItemClickListener {
 
