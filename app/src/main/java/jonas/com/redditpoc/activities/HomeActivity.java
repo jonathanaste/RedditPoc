@@ -1,5 +1,6 @@
 package jonas.com.redditpoc.activities;
 
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,28 +23,32 @@ public class HomeActivity extends AppCompatActivity implements ActivityCallback 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setIcon(R.drawable.reddit);
         }
-
         fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content, new TopFragment()).commit();
+
+        // Finding the fragment that we want to show
+        Fragment fragment = fragmentManager.findFragmentByTag(TopFragment.TAG);
+
+        // If the fragment is null it means that we already have the fragment alive
+        if (fragment == null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.content, TopFragment.newInstance(), TopFragment.TAG).commit();
+        }
     }
 
     @Override
     public void onItemSelected(Fragment fragment) {
-        replaceFragment(fragment,true);
+        replaceFragment(fragment, true);
     }
 
-    protected void replaceFragment(Fragment newFragment, boolean addToBackStack) {
-
-        fragmentManager = getSupportFragmentManager();
+    private void replaceFragment(Fragment newFragment, boolean addToBackStack) {
+        String fragmentTag = newFragment.getClass().getSimpleName();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (addToBackStack) {
-            fragmentTransaction.addToBackStack(newFragment.getClass().getSimpleName());
+            fragmentTransaction.addToBackStack(fragmentTag);
         }
-        fragmentTransaction.replace(R.id.content, newFragment).commit();
+        fragmentTransaction.replace(R.id.content, newFragment, fragmentTag).commit();
     }
-
 }
